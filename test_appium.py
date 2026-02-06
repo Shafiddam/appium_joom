@@ -28,19 +28,21 @@ appium_server_url = 'http://localhost:4723'
 
 
 class TestAppium:
+    """
     # Локаторы для Joom в эмуляторе:
-    # JOOM_ICON = (AppiumBy.XPATH, '//android.widget.TextView[@content-desc="Joom"]')  # эмулятор
-    # SETTINGS_ICON = (AppiumBy.XPATH, '//android.widget.ImageView[@content-desc="Настройки"]')  # эмулятор
-    # PROFILE_ICON = (AppiumBy.XPATH, '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.joom:id/main_bottom_bar"]/android.view.ViewGroup[5]')  # эмулятор
-    # CURRENCY_MENU = (AppiumBy.XPATH, '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.joom:id/recycler"]/android.widget.Button[3]')
-    # USD_RADIO = (AppiumBy.XPATH, '//android.widget.RadioButton[@text="Доллар США"]')
-    # BUTTON_FIND = (AppiumBy.ID, 'com.joom:id/start_button')
-    # SEARCH_FIELD = (AppiumBy.XPATH, '//android.view.ViewGroup[@resource-id="com.joom:id/search"]')
-    # SEARCH_FIELD_2 = (AppiumBy.XPATH, '//android.view.ViewGroup[@resource-id="com.joom:id/search_field"]')
-    # SEARCH_INPUT = (AppiumBy.XPATH, '//android.widget.EditText[@resource-id="com.joom:id/input"]')
-    # SEARCH_TITLE_DRESS = (AppiumBy.XPATH,'//android.widget.TextView[@resource-id="com.joom:id/row_layout_title" and @text="Категория: Платья"]')
-    # BUTTON_SORT = (AppiumBy.XPATH,'//android.widget.LinearLayout[@content-desc="Сортировка, Не выбрано"]/android.widget.ImageView')
-    # BUTTON_ASK = (AppiumBy.XPATH, '//android.widget.RadioButton[@text="По возрастающей цене"]')
+    JOOM_ICON = (AppiumBy.XPATH, '//android.widget.TextView[@content-desc="Joom"]')  # эмулятор
+    SETTINGS_ICON = (AppiumBy.XPATH, '//android.widget.ImageView[@content-desc="Настройки"]')  # эмулятор
+    PROFILE_ICON = (AppiumBy.XPATH, '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.joom:id/main_bottom_bar"]/android.view.ViewGroup[5]')  # эмулятор
+    CURRENCY_MENU = (AppiumBy.XPATH, '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.joom:id/recycler"]/android.widget.Button[3]')
+    USD_RADIO = (AppiumBy.XPATH, '//android.widget.RadioButton[@text="Доллар США"]')
+    BUTTON_FIND = (AppiumBy.ID, 'com.joom:id/start_button')
+    SEARCH_FIELD = (AppiumBy.XPATH, '//android.view.ViewGroup[@resource-id="com.joom:id/search"]')
+    SEARCH_FIELD_2 = (AppiumBy.XPATH, '//android.view.ViewGroup[@resource-id="com.joom:id/search_field"]')
+    SEARCH_INPUT = (AppiumBy.XPATH, '//android.widget.EditText[@resource-id="com.joom:id/input"]')
+    SEARCH_TITLE_DRESS = (AppiumBy.XPATH,'//android.widget.TextView[@resource-id="com.joom:id/row_layout_title" and @text="Категория: Платья"]')
+    BUTTON_SORT = (AppiumBy.XPATH,'//android.widget.LinearLayout[@content-desc="Сортировка, Не выбрано"]/android.widget.ImageView')
+    BUTTON_ASK = (AppiumBy.XPATH, '//android.widget.RadioButton[@text="По возрастающей цене"]')
+    """
 
     # Локаторы для Joom в телефоне:
     DESC_JOOM_ICON = (AppiumBy.XPATH, '//android.widget.TextView[@content-desc="Джум"]')
@@ -80,7 +82,8 @@ class TestAppium:
         print (element.get_attribute("clickable"))
         return element.get_attribute("clickable") == "true"
 
-    def wait_for_element_presence(self, driver, locator, timeout=20):
+    @staticmethod
+    def wait_for_element_presence(driver, locator, timeout=20):
         """ Ждёт появления элемента и возвращает его. """
         try:
             return WebDriverWait(driver, timeout).until(EC.presence_of_element_located(locator))
@@ -92,8 +95,8 @@ class TestAppium:
         element = driver.find_element(*locator)
         return element.find_element(AppiumBy.XPATH, "..")
 
-
-    def swipe_up(self, driver, duration=1000):
+    @staticmethod
+    def swipe_up(driver, duration=1000):
         """Свайп вверх по центру экрана (прокрутка списка вверх)."""
         window_size = driver.get_window_size()
         width = window_size['width']
@@ -103,7 +106,8 @@ class TestAppium:
         x = int(width / 2)  # по центру по горизонтали
         driver.swipe(x, start_y, x, end_y, duration)
 
-    def swipe_down(self, driver, duration=2000):
+    @staticmethod
+    def swipe_down(driver, duration=2000):
         """Свайп вниз """
         size = driver.get_window_size()
         width, height = size['width'], size['height']
@@ -113,7 +117,8 @@ class TestAppium:
         print(f"\nwidth = {width}, height = {size['height']} \nstart_y = {start_y}, end_y = {end_y}")
         driver.swipe(x, start_y, x, end_y, duration)
 
-    def swipe_left(self, driver, percent=0.4, duration=1000):
+    @staticmethod
+    def swipe_left(driver, percent=0.4, duration=1000):
         size = driver.get_window_size()
         x, y = int(size['width'] * 0.5), int(size['height'] * 0.8)
         width = int(size['width'])
@@ -123,7 +128,7 @@ class TestAppium:
         driver.swipe(start_x, y, end_x, y, duration)
 
     def start_joom(self, driver):
-        # driver.terminate_app("com.joom") # для эмулятора
+        # driver.terminate_app("com.joom") # случай когда запускаем в эмуляторе
         driver.terminate_app("tech.jm")
         driver.press_keycode(3)  # HOME (код 3)
         self.element_is_clickable(driver, self.DESC_JOOM_ICON).click()
