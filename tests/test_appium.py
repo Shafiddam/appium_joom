@@ -20,6 +20,8 @@ def driver():
         language='ru',
         locale='RU'
     )
+    # Добавим вывод для отладки (чтобы видеть, куда подключаемся)
+    print(f"\nПодключаюсь к Appium по адресу: {appium_server_url}")
     driver = webdriver.Remote(appium_server_url, options=UiAutomator2Options().load_capabilities(capabilities))
     yield driver
     driver.quit()
