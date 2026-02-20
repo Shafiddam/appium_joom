@@ -1,0 +1,23 @@
+﻿version: '3.8'
+
+services:
+  appium:
+    image: appium/appium:latest
+    ports:
+      - "4723:4723"
+    environment:
+      - APPIUM_HOST=0.0.0.0
+      - APPIUM_PORT=4723
+
+  tests:
+    build: .
+    environment:
+      - APPIUM_URL=http://appium:4723
+    depends_on:
+      - appium
+    volumes:
+      - ./reports:/app/reports
+      - ./screenshots:/app/screenshots
+    # Для Android эмулятора добавить:
+    # devices:
+    #   - /dev/kvm:/dev/kvm

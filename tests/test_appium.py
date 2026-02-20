@@ -1,4 +1,5 @@
 import pytest
+import os
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
@@ -24,7 +25,7 @@ def driver():
     driver.quit()
 
 
-appium_server_url = 'http://localhost:4723'
+appium_server_url = os.getenv('APPIUM_URL','http://localhost:4723')
 
 
 class TestAppium:
@@ -206,3 +207,4 @@ class TestAppium:
         self.swipe_down(driver)
         element = self.wait_for_element_presence(driver, self.ITEM_IN_FAVORITE)
         assert element.is_displayed(), "Элемент в избранном не отображается"
+
