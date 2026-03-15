@@ -1,16 +1,16 @@
-# Базовый образ с Python
+п»ї# Р‘Р°Р·РѕРІС‹Р№ РѕР±СЂР°Р· СЃ Python
 FROM python:3.11-slim
 
-# Установка Appium (для мобильных тестов)
+# РЈСЃС‚Р°РЅРѕРІРєР° Appium (РґР»СЏ РјРѕР±РёР»СЊРЅС‹С… С‚РµСЃС‚РѕРІ)
 #RUN npm install -g appium
 
-# Копирование зависимостей Python
+# РљРѕРїРёСЂРѕРІР°РЅРёРµ Р·Р°РІРёСЃРёРјРѕСЃС‚РµР№ Python
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Копирование кода тестов
+# РљРѕРїРёСЂРѕРІР°РЅРёРµ РєРѕРґР° С‚РµСЃС‚РѕРІ
 COPY . /app
 WORKDIR /app
 
-# Запуск тестов
+# Р—Р°РїСѓСЃРє С‚РµСЃС‚РѕРІ
 CMD ["pytest", "tests/"]
